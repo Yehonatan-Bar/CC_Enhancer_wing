@@ -1,0 +1,3 @@
+
+After each step, add, commit and push. then, call @claude_auto.py with description of what you did and the string prameter: "security review" and follow the instrucation, 
+ after ou finished,   call @claude_auto.py with description of what you did and the string prameter: "error handling" and follow the instrucation.

@@ -80,6 +80,24 @@
               "main"
             ],
             "dependencies": ["sys", "time", "capture_claude_simple"]
+          },
+          {
+            "file": "get_file_content.py",
+            "description": "Secure file reading utility with comprehensive security checks",
+            "classes": [],
+            "functions": ["get_file_content", "main"],
+            "dependencies": ["sys", "os", "pathlib"],
+            "features": [
+              "Path traversal prevention with pattern detection",
+              "Symbolic link security validation",
+              "Sensitive system file protection",
+              "File size limit enforcement (100MB)",
+              "Optional base path restriction for sandboxing",
+              "TOCTOU race condition mitigation",
+              "Memory-safe binary file handling",
+              "Type validation for inputs",
+              "Error messages that don't leak system information"
+            ]
           }
         ],
         "bin_scripts": [

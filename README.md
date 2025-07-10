@@ -176,6 +176,18 @@ python run_claude_wsl.py /home/user/project "Explain this code"
    python bin/diagnose_claude.py
    ```
 
+4. **get_file_content.py** - Secure file reading utility
+   ```bash
+   python get_file_content.py <file_path> [allowed_base_path]
+   ```
+   
+   Features:
+   - Path traversal prevention
+   - Symbolic link validation
+   - Sensitive file protection
+   - File size limits (100MB)
+   - Optional base path restriction for sandboxing
+
 ### Command-Line Options
 
 Most scripts support these common options:

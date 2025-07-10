@@ -6,4 +6,7 @@ The folder structure and the design of the project are intended to be highly mod
 
 Remember! You must update README.md and  project_structure.json after each step!
 
+ after each step, add, commit and push. then, call @claude_auto.py with description of what you did and the string prameter: "security review" and follow the instrucation, 
+ after ou finished,   call @claude_auto.py with description of what you did and the string prameter: "error handling" and follow the instrucation.
+
 Think hard, think deep, Reason thoughtfully and thoroughly, Engage in wise and comprehensive reasoning.

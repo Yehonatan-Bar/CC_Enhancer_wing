@@ -12,10 +12,11 @@ from capture_claude_simple import capture_claude_print
 
 
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: python claude_auto.py <prompt>")
+    if len(sys.argv) < 3:
+        print("Usage: python claude_auto.py <role> <prompt>")
         print("\nThis always runs with auto-permissions enabled!")
-        print("Example: python claude_auto.py 'create hello.py'")
+        print("Available roles: error handling, security review")
+        print("Example: python claude_auto.py 'error handling' 'create hello.py'")
         sys.exit(1)
     
     # First, call git_diff_last_commit.py to get the diff
@@ -39,15 +40,25 @@ def main():
         # Extract prompts from XML
         claude_pre_prompt = root.find(".//prompt[@key='claude pre prompt']").text
         pre_git_diff = root.find(".//prompt[@key='pre git diff']").text
-        error_handling = root.find(".//roles/prompt[@key='error handling']").text
+        
+        # Extract role parameter and find corresponding prompt
+        role = sys.argv[1]
+        role_prompt_element = root.find(f".//roles/prompt[@key='{role}']")
+        
+        if role_prompt_element is None:
+            print(f"Error: Role '{role}' not found in prompt_library.xml", file=sys.stderr)
+            print("Available roles: error handling, security review")
+            sys.exit(1)
+            
+        role_prompt = role_prompt_element.text
     except Exception as e:
         print(f"Error parsing prompt_library.xml: {e}", file=sys.stderr)
         sys.exit(1)
     
     # Build the combined prompt
-    user_prompt = ' '.join(sys.argv[1:])  # Join all args as prompt
+    user_prompt = ' '.join(sys.argv[2:])  # Join all args after role as prompt
     
-    combined_prompt = f"{claude_pre_prompt}: {user_prompt}\n\n{pre_git_diff}:\n{git_diff_output}\n\n{error_handling}"
+    combined_prompt = f"{claude_pre_prompt}: {user_prompt}\n\n{pre_git_diff}:\n{git_diff_output}\n\n{role_prompt}"
     
     # Send to Claude
     output, code = capture_claude_print(
