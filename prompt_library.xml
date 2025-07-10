@@ -4,5 +4,6 @@
     <prompt key="pre git diff">Here are the actual changes that were made</prompt>
     <roles>
         <prompt key="error handling">Review the changes I made and tell me whether I handled all error scenarios at the highest standard. If not, what should be improved?</prompt>
+        <prompt key="security review">Analyze the code for potential security vulnerabilities, including but not limited to: input validation, authentication bypasses, injection attacks, and data exposure. Suggest security improvements where needed.</prompt>
     </roles>
 </prompts>
