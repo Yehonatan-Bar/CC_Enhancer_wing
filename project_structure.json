@@ -1,0 +1,265 @@
+{
+  "project_name": "Code Enhancer",
+  "description": "Claude CLI Automation Toolkit - A comprehensive automation framework for programmatically interacting with Anthropic's Claude CLI across multiple platforms",
+  "version": "1.0.0",
+  "last_updated": "2025-07-10",
+  "structure": {
+    "directories": {
+      "root": {
+        "path": "/home/laurelin/projects/code_enhancer",
+        "description": "Main project directory containing core automation scripts"
+      },
+      "bin": {
+        "path": "/home/laurelin/projects/code_enhancer/bin",
+        "description": "Auxiliary scripts and alternative implementations"
+      },
+      "venv_cc_enhancer": {
+        "path": "/home/laurelin/projects/code_enhancer/venv_cc_enhancer",
+        "description": "Python virtual environment for project dependencies"
+      }
+    },
+    "files": {
+      "python_files": {
+        "main_scripts": [
+          {
+            "file": "run_claude_wsl.py",
+            "description": "Main WSL-optimized automation script with multiple methods for running Claude CLI",
+            "classes": [
+              {
+                "name": "Config",
+                "methods": ["__init__", "load", "get_platform_config", "get_terminal_config"],
+                "description": "Configuration management for terminal automation"
+              },
+              {
+                "name": "TerminalDetector",
+                "methods": ["__init__", "detect_platform", "detect_terminal", "is_wsl"],
+                "description": "Cross-platform terminal detection and identification"
+              },
+              {
+                "name": "ClaudeAutomation",
+                "methods": ["__init__", "find_claude_path", "open_terminal", "run_claude", "run"],
+                "description": "Main automation controller for Claude CLI execution"
+              }
+            ],
+            "functions": ["setup_logging", "main"],
+            "dependencies": ["subprocess", "time", "logging", "pathlib", "json", "argparse", "platform", "os", "shutil", "pyautogui", "click"]
+          },
+            "classes": [],
+            "functions": ["convert_wsl_path", "create_bash_wrapper", "main"],
+            "dependencies": ["subprocess", "time", "pyautogui", "sys", "os", "pathlib", "click", "tempfile", "shlex"]
+          },
+          {
+            "file": "logger.py",
+            "description": "Advanced dual-tag logging system with user and module tracking",
+            "classes": [
+              {
+                "name": "DualTagLogger",
+                "methods": [
+                  "__init__", "_ensure_directory", "_setup_logger", "_get_file_handler",
+                  "_format_message", "debug", "info", "warning", "error", "critical",
+                  "log_exception", "log_with_tags", "get_logs_by_user_tag", "get_logs_by_module_tag",
+                  "get_all_tags", "cleanup_old_logs", "get_log_stats", "search_logs",
+                  "export_logs", "_export_to_json", "_export_to_csv", "_export_to_txt"
+                ],
+                "description": "Core logging class with dual-tag functionality"
+              }
+            ],
+            "functions": [],
+            "dependencies": ["logging", "pathlib", "datetime", "json", "re", "typing", "dataclasses", "functools", "threading", "csv"]
+          },
+          {
+            "file": "log_analyzer.py",
+            "description": "Log analysis and reporting tools for the dual-tag logging system",
+            "classes": [
+              {
+                "name": "LogAnalyzer",
+                "methods": [
+                  "__init__", "generate_report", "analyze_errors", "analyze_performance",
+                  "analyze_usage_patterns", "generate_html_report", "generate_markdown_report"
+                ],
+                "description": "Comprehensive log analysis and reporting"
+              }
+            ],
+            "functions": ["main"],
+            "dependencies": ["pathlib", "datetime", "json", "re", "typing", "dataclasses", "html", "logger", "argparse"]
+          },
+          {
+            "file": "example_usage.py",
+            "description": "Demonstration of the advanced logging system capabilities",
+            "classes": [],
+            "functions": ["demonstrate_basic_usage", "demonstrate_analysis", "main"],
+            "dependencies": ["logger", "log_analyzer", "time", "random"]
+          }
+        ],
+        "bin_scripts": [
+          {
+            "file": "bin/run_claude.py",
+            "description": "Basic terminal automation using pyautogui (deprecated, moved to bin)",
+            "classes": [],
+            "functions": ["get_terminal_command", "convert_wsl_path", "open_terminal_at_path", "main"],
+            "dependencies": ["subprocess", "time", "pyautogui", "sys", "platform", "os", "click", "pathlib"]
+          },
+          {
+            "file": "bin/run_claude_advanced.py",
+            "description": "Advanced terminal automation with configuration management (deprecated, moved to bin)",
+            "classes": [
+              {
+                "name": "Config",
+                "methods": ["__init__", "load", "get_platform_config", "get_terminal_config"],
+                "description": "Configuration management for terminal automation"
+              },
+              {
+                "name": "TerminalDetector",
+                "methods": ["__init__", "detect_platform", "detect_terminal", "is_wsl"],
+                "description": "Cross-platform terminal detection and identification"
+              },
+              {
+                "name": "ClaudeAutomation",
+                "methods": ["__init__", "find_claude_path", "open_terminal", "run_claude", "run"],
+                "description": "Main automation controller for Claude CLI execution"
+              }
+            ],
+            "functions": ["setup_logging", "main"],
+            "dependencies": ["subprocess", "time", "logging", "pathlib", "json", "argparse", "platform", "os", "shutil", "pyautogui", "click"]
+          },
+          {
+            "file": "bin/run_claude_fixed.py",
+            "description": "Fixed version with automatic PATH resolution for Claude CLI",
+            "classes": [],
+            "functions": ["find_claude_path", "run_claude_fixed"],
+            "dependencies": ["subprocess", "time", "pyautogui", "sys", "os", "pathlib"]
+          },
+          {
+            "file": "bin/diagnose_claude.py",
+            "description": "Diagnostic tool for troubleshooting Claude CLI installation",
+            "classes": [],
+            "functions": ["check_claude_installation", "check_python_environment", "check_terminal_emulators", "check_permissions", "run_diagnostics"],
+            "dependencies": ["subprocess", "sys", "os", "shutil", "platform"]
+          },
+          {
+            "file": "bin/run_claude_pexpect.py",
+            "description": "Alternative implementation using pexpect for better terminal control",
+            "classes": [
+              {
+                "name": "TerminalAutomation",
+                "methods": ["__init__", "run_command", "wait_for_prompt", "send_input", "get_output", "close"],
+                "description": "Terminal automation using pexpect library"
+              }
+            ],
+            "functions": ["run_claude_with_pexpect", "main"],
+            "dependencies": ["pexpect", "sys", "time", "argparse", "logging", "os"]
+          }
+        ]
+      },
+      "configuration_files": [
+        {
+          "file": "config.json",
+          "description": "Default configuration for terminal automation timing and preferences",
+          "structure": {
+            "terminal_spawn_delay": "Time to wait for terminal to open",
+            "claude_wait_time": "Time to wait for Claude to start",
+            "keyboard_delay": "Delay between keyboard actions",
+            "platforms": "Platform-specific terminal configurations"
+          }
+        },
+        {
+          "file": "requirements.txt",
+          "description": "Python package dependencies",
+          "key_dependencies": [
+            "pyautogui==0.9.54",
+            "pexpect==4.9.0",
+            "click==8.1.7",
+            "PyGetWindow==0.0.9",
+            "Pillow==10.2.0",
+            "python-xlib==0.33",
+            "pyperclip==1.8.2"
+          ]
+        }
+      ],
+      "documentation_files": [
+        {
+          "file": "README.md",
+          "description": "Main project documentation with installation and usage instructions"
+        },
+        {
+          "file": "QUICKSTART.md",
+          "description": "Quick start guide for immediate usage"
+        },
+        {
+          "file": "HOW_TO_USE.md",
+          "description": "Detailed usage instructions and examples"
+        },
+        {
+          "file": "TROUBLESHOOTING.md",
+          "description": "Common issues and solutions"
+        },
+        {
+          "file": "README_claude_automation.md",
+          "description": "Claude-specific automation details"
+        },
+        {
+          "file": "bin/README.md",
+          "description": "Documentation for auxiliary scripts"
+        }
+      ],
+      "shell_scripts": [
+        {
+          "file": "setup.sh",
+          "description": "Automated setup script for project initialization"
+        },
+        {
+          "file": "bin/test_claude_automation.sh",
+          "description": "Test suite for automation scripts"
+        },
+        {
+          "file": "bin/run_claude.sh",
+          "description": "Bash implementation of Claude automation"
+        },
+        {
+          "file": "bin/run_claude_xdotool.sh",
+          "description": "X11 automation variant using xdotool"
+        }
+      ]
+    },
+    "key_features": {
+      "terminal_automation": {
+        "description": "Multiple methods for automating terminal interactions",
+        "implementations": [
+          "PyAutoGUI-based automation",
+          "Pexpect-based terminal control",
+          "Direct subprocess execution",
+          "Platform-specific optimizations"
+        ]
+      },
+      "cross_platform_support": {
+        "description": "Support for multiple operating systems and terminals",
+        "platforms": ["Linux", "macOS", "Windows", "WSL"],
+        "terminals": ["gnome-terminal", "konsole", "xterm", "Terminal.app", "CMD", "PowerShell", "Windows Terminal"]
+      },
+      "configuration_management": {
+        "description": "Flexible configuration system for customization",
+        "features": [
+          "Per-platform settings",
+          "Timing adjustments",
+          "Terminal preferences",
+          "Custom configuration files"
+        ]
+      },
+      "logging_system": {
+        "description": "Advanced dual-tag logging with analysis capabilities",
+        "features": [
+          "User and module tagging",
+          "Log analysis and reporting",
+          "Multiple export formats",
+          "Performance metrics"
+        ]
+      }
+    },
+    "design_principles": {
+      "modularity": "Highly modular design with separate implementations for different use cases",
+      "maintainability": "Clear separation of concerns and well-documented code",
+      "extensibility": "Easy to add new terminal types and platforms",
+      "robustness": "Multiple fallback options and comprehensive error handling"
+    }
+  }
+}

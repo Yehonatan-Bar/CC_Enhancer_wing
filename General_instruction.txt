@@ -1,0 +1,9 @@
+
+Before you start, read  README.md and  project_structure.json to stay ancored to the existing code structure style conventions etc. 
+
+
+The folder structure and the design of the project are intended to be highly modular and easy to maintain.
+
+Remember! You must update README.md and  project_structure.json after each step!
+
+Think hard, think deep, Reason thoughtfully and thoroughly, Engage in wise and comprehensive reasoning.
