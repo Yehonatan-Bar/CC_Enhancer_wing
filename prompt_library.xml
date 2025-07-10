@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompts>
+    <prompt key="claude pre prompt">Here is what I attempted to do</prompt>
+    <prompt key="pre git diff">Here are the actual changes that were made</prompt>
+    <roles>
+        <prompt key="error handling">Review the changes I made and tell me whether I handled all error scenarios at the highest standard. If not, what should be improved?</prompt>
+    </roles>
+</prompts>

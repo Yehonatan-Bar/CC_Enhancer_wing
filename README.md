@@ -97,45 +97,67 @@ pip install -r requirements.txt
    source venv_cc_enhancer/bin/activate
    ```
 
-2. Run the WSL-optimized automation (recommended for all platforms):
+2. Capture Claude's output programmatically:
+
    ```bash
-   python run_claude_wsl.py "/path/to/your/project" "Your prompt here"
+   # Smart capture with auto-permission detection
+   python claude_capture.py "create a hello.py file"
+   
+   # Always auto-approve permissions (simpler)
+   python claude_auto.py "create a test.txt file"
    ```
 
 ### Usage Examples
 
 ```bash
-# Basic usage
+# Smart permission handling (recommended)
+python claude_capture.py "What is 2+2?"                    # No permissions needed
+python claude_capture.py "Create a Python hello world"      # Auto-detects need for permissions
+python claude_capture.py "List files" --no-permissions     # Force no permissions
+
+# Simple auto-approve mode
+python claude_auto.py "create a hello.py file with print('Hello')"
+
+# WSL terminal automation (for interactive use)
 python run_claude_wsl.py /home/user/project "Explain this code"
-
-# With different methods
-python run_claude_wsl.py --method direct /path "Your prompt"     # Default, recommended
-python run_claude_wsl.py --method interactive /path "Your prompt" # Uses interactive shell
-python run_claude_wsl.py --method script /path "Your prompt"      # Creates temp script
-
-# With custom wait time
-python run_claude_wsl.py --wait-time 10 /path "Your prompt"
-
-# Verbose output for debugging
-python run_claude_wsl.py --verbose /path "Your prompt"
 ```
 
 ## Usage
 
 ### Available Scripts
 
-#### Main Script
+#### Main Scripts
 
-**run_claude_wsl.py** - WSL-optimized automation (works on all platforms)
-```bash
-python run_claude_wsl.py /path/to/project "Your prompt"
-```
+1. **claude_capture.py** - Smart capture with automatic permission detection
+   ```bash
+   python claude_capture.py "Your prompt"
+   ```
+   
+   Features:
+   - Automatically detects when permissions are needed
+   - Retries with permissions if Claude asks
+   - Clear feedback about operation mode
 
-Options:
-- `--method` - Choose automation method (direct, script, interactive, pyautogui)
-- `--wait-time` - Set wait time before sending input (default: 5 seconds)
-- `--verbose` - Enable verbose output for debugging
-- `--keep-open` - Keep terminal open after command execution
+2. **claude_auto.py** - Simple capture with auto-approved permissions
+   ```bash
+   python claude_auto.py "Your prompt"
+   ```
+   
+   Features:
+   - Always runs with permissions enabled
+   - Minimal friction for trusted operations
+   - Direct output to stdout
+
+3. **run_claude_wsl.py** - WSL-optimized terminal automation
+   ```bash
+   python run_claude_wsl.py /path/to/project "Your prompt"
+   ```
+   
+   Options:
+   - `--method` - Choose automation method (direct, script, interactive, pyautogui)
+   - `--wait-time` - Set wait time before sending input (default: 5 seconds)
+   - `--verbose` - Enable verbose output for debugging
+   - `--keep-open` - Keep terminal open after command execution
 
 #### Auxiliary Scripts (in bin/)
 
@@ -185,18 +207,26 @@ Most scripts support these common options:
 
 ```
 code_enhancer/
-├── run_claude_wsl.py          # Main WSL-optimized automation script
+├── claude_capture.py          # Smart capture with auto-permission detection
+├── claude_auto.py             # Simple capture with auto-permissions
+├── run_claude_wsl.py          # WSL-optimized terminal automation
+├── example_claude_capture.py  # Usage examples
+├── CLAUDE_CAPTURE_GUIDE.md    # Detailed capture documentation
 ├── config.json                # Default configuration
 ├── requirements.txt           # Python dependencies
 ├── setup.sh                   # Setup script
 ├── project_structure.json     # Project metadata
-├── bin/                       # Auxiliary and deprecated scripts
-│   ├── run_claude.py          # Basic terminal automation (deprecated)
-│   ├── run_claude_advanced.py # Full-featured implementation (deprecated)
-│   ├── run_claude_pexpect.py  # Output capture version
-│   ├── run_claude_fixed.py    # PATH-aware version
-│   ├── diagnose_claude.py     # Diagnostic tool
-│   └── ...                    # Other utilities
+├── General_instruction.txt    # Project guidelines
+├── bin/                       # Auxiliary and utility scripts
+│   ├── capture_claude_simple.py      # Core capture implementation
+│   ├── claude_auto_responder.py      # Interactive auto-responder
+│   ├── claude_auto_responder_pty.py  # PTY-based auto-responder
+│   ├── run_claude.py                 # Basic terminal automation
+│   ├── run_claude_advanced.py        # Full-featured implementation
+│   ├── run_claude_pexpect.py         # Output capture version
+│   ├── run_claude_fixed.py           # PATH-aware version
+│   ├── diagnose_claude.py            # Diagnostic tool
+│   └── test_*.py                     # Test scripts
 ├── venv_cc_enhancer/          # Virtual environment
 └── docs/                      # Additional documentation
 ```

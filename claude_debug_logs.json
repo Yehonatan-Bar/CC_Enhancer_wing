@@ -1,0 +1,69 @@
+[
+  {
+    "timestamp": "2025-07-10T21:51:15.538190",
+    "feature": "startup",
+    "module": "main",
+    "message": "Starting Claude subprocess",
+    "parameters": {
+      "path": ".",
+      "input": "echo 'Hello from Claude!'"
+    }
+  },
+  {
+    "timestamp": "2025-07-10T21:51:15.538227",
+    "feature": "startup",
+    "module": "main",
+    "message": "Creating subprocess",
+    "parameters": {
+      "command": "/home/laurelin/.npm-global/bin/claude"
+    }
+  },
+  {
+    "timestamp": "2025-07-10T21:51:15.538657",
+    "feature": "startup",
+    "module": "main",
+    "message": "Subprocess created",
+    "parameters": {
+      "pid": 46055
+    }
+  },
+  {
+    "timestamp": "2025-07-10T21:51:17.543147",
+    "feature": "input",
+    "module": "main",
+    "message": "Sending initial input",
+    "parameters": {
+      "input_length": 25
+    }
+  },
+  {
+    "timestamp": "2025-07-10T21:51:25.553048",
+    "feature": "heartbeat",
+    "module": "monitor",
+    "message": "Process still running",
+    "parameters": {
+      "duration": 10.012744426727295,
+      "output_count": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-10T21:51:35.612112",
+    "feature": "heartbeat",
+    "module": "monitor",
+    "message": "Process still running",
+    "parameters": {
+      "duration": 20.071808099746704,
+      "output_count": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-10T21:51:45.625232",
+    "feature": "timeout",
+    "module": "monitor",
+    "message": "Process timeout",
+    "parameters": {
+      "duration": 30.084928274154663,
+      "timeout": 30
+    }
+  }
+]

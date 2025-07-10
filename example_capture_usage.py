@@ -4,25 +4,30 @@ Example of how to capture Claude's output programmatically.
 """
 
 from capture_claude_output import capture_claude_output
+from claude_auto_responder import ClaudeAutoResponder
 import os
 
 
 def main():
-    # Example 1: Simple capture
-    print("Example 1: Capturing Claude's response to a simple question")
+    # Example 1: Simple capture with auto-response to permission prompts
+    print("Example 1: Capturing Claude's response with auto-responder")
     print("-" * 50)
     
     try:
-        # Run Claude and capture output
-        output = capture_claude_output(
+        # Create auto-responder instance
+        responder = ClaudeAutoResponder(verbose=True)
+        
+        # Run Claude with auto-response capability
+        output, return_code = responder.run_claude_interactive(
             path="/home/laurelin/projects/code_enhancer",  # Current directory
-            input_string="create an empty file with the name 'test.txt' ",
+            initial_input="create an empty file with the name 'test.txt' ",
             wait_time=3
         )
         
         # Store in a variable
         claude_response = output.strip()
-        print(f"Claude's response: {claude_response}")
+        print(f"\nClaude's response captured successfully!")
+        print(f"Return code: {return_code}")
         
     except Exception as e:
         print(f"Error: {e}")

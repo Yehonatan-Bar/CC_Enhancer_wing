@@ -1,126 +1,105 @@
 #!/usr/bin/env python3
 """
-Diagnostic script to help troubleshoot Claude command issues.
+Diagnose Claude CLI behavior
 """
 
-import os
 import subprocess
 import sys
+import time
+import os
 
-
-def check_claude():
-    """Run various checks to diagnose Claude command issues."""
-    print("Claude Command Diagnostic Tool")
-    print("=" * 50)
+def test_claude_direct():
+    """Test Claude with direct subprocess call"""
+    print("Test 1: Direct subprocess call")
+    print("-" * 50)
     
-    # Check 1: Which claude
-    print("\n1. Checking 'which claude':")
     try:
+        # Test if claude command exists
         result = subprocess.run(['which', 'claude'], capture_output=True, text=True)
-        if result.returncode == 0:
-            print(f"   ✓ Found: {result.stdout.strip()}")
-        else:
-            print("   ✗ 'which claude' failed")
+        print(f"Claude path: {result.stdout.strip()}")
+        
+        # Check if it's executable
+        claude_path = result.stdout.strip()
+        if os.path.exists(claude_path):
+            print(f"Executable: {os.access(claude_path, os.X_OK)}")
+            
+        # Try running claude with --help
+        print("\nTesting 'claude --help':")
+        result = subprocess.run(['claude', '--help'], capture_output=True, text=True, timeout=5)
+        print(f"Return code: {result.returncode}")
+        print(f"Stdout length: {len(result.stdout)}")
+        print(f"Stderr length: {len(result.stderr)}")
+        if result.stderr:
+            print(f"Stderr: {result.stderr[:200]}")
+            
+    except subprocess.TimeoutExpired:
+        print("ERROR: Command timed out")
     except Exception as e:
-        print(f"   ✗ Error: {e}")
-    
-    # Check 2: Direct execution
-    print("\n2. Testing direct execution:")
-    try:
-        result = subprocess.run(['claude', '--version'], capture_output=True, text=True)
-        if result.returncode == 0:
-            print(f"   ✓ Claude runs directly: {result.stdout.strip()[:50]}...")
-        else:
-            print(f"   ✗ Direct execution failed: {result.stderr}")
-    except FileNotFoundError:
-        print("   ✗ Claude command not found in PATH")
-    except Exception as e:
-        print(f"   ✗ Error: {e}")
-    
-    # Check 3: PATH environment
-    print("\n3. Current PATH:")
-    path = os.environ.get('PATH', '')
-    npm_global_in_path = False
-    for p in path.split(':'):
-        if 'npm-global' in p:
-            print(f"   ✓ npm-global in PATH: {p}")
-            npm_global_in_path = True
-    if not npm_global_in_path:
-        print("   ✗ npm-global directory not found in PATH")
-    
-    # Check 4: npm global directory
-    print("\n4. Checking npm global directory:")
-    npm_global_path = os.path.expanduser("~/.npm-global/bin/claude")
-    if os.path.exists(npm_global_path):
-        print(f"   ✓ Found claude at: {npm_global_path}")
-        print(f"   ✓ Executable: {os.access(npm_global_path, os.X_OK)}")
-    else:
-        print("   ✗ Claude not found in ~/.npm-global/bin/")
-    
-    # Check 5: Shell initialization files
-    print("\n5. Shell configuration files:")
-    configs = ['.bashrc', '.bash_profile', '.profile', '.zshrc']
-    for config in configs:
-        config_path = os.path.expanduser(f"~/{config}")
-        if os.path.exists(config_path):
-            print(f"   ✓ {config} exists")
-            # Check if npm-global is added in the file
-            try:
-                with open(config_path, 'r') as f:
-                    content = f.read()
-                    if 'npm-global' in content:
-                        print(f"     └─ Contains npm-global PATH setup")
-            except:
-                pass
-    
-    # Check 6: Interactive vs non-interactive shell
-    print("\n6. Testing shell environments:")
-    
-    # Non-interactive shell
-    print("   Non-interactive shell (bash -c):")
-    try:
-        result = subprocess.run(['bash', '-c', 'which claude'], 
-                              capture_output=True, text=True)
-        if result.returncode == 0:
-            print(f"     ✓ Found: {result.stdout.strip()}")
-        else:
-            print("     ✗ Claude not found in non-interactive shell")
-    except Exception as e:
-        print(f"     ✗ Error: {e}")
-    
-    # Interactive shell
-    print("   Interactive shell (bash -ic):")
-    try:
-        result = subprocess.run(['bash', '-ic', 'which claude'], 
-                              capture_output=True, text=True)
-        if result.returncode == 0:
-            print(f"     ✓ Found: {result.stdout.strip()}")
-        else:
-            print("     ✗ Claude not found in interactive shell")
-    except Exception as e:
-        print(f"     ✗ Error: {e}")
-    
-    # Check 7: WSL detection
-    print("\n7. Environment:")
-    if os.path.exists("/proc/sys/fs/binfmt_misc/WSLInterop"):
-        print("   ✓ Running in WSL")
-    else:
-        print("   ✓ Not running in WSL")
-    
-    # Recommendations
-    print("\n" + "=" * 50)
-    print("RECOMMENDATIONS:")
-    
-    if not npm_global_in_path:
-        print("\n⚠️  Add npm global directory to PATH:")
-        print("   Add this to your ~/.bashrc:")
-        print("   export PATH=$PATH:~/.npm-global/bin")
-    
-    print("\n⚠️  For automation scripts, use one of these approaches:")
-    print("   1. Source .bashrc: bash -c 'source ~/.bashrc && claude'")
-    print("   2. Use full path: /home/$USER/.npm-global/bin/claude")
-    print("   3. Use interactive shell: bash -ic 'claude'")
+        print(f"ERROR: {e}")
 
+def test_claude_interactive():
+    """Test Claude in interactive mode"""
+    print("\n\nTest 2: Interactive mode test")
+    print("-" * 50)
+    
+    try:
+        # Start claude process
+        proc = subprocess.Popen(
+            ['claude'],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            bufsize=0  # Unbuffered
+        )
+        
+        print(f"Process started with PID: {proc.pid}")
+        
+        # Check if process is running
+        time.sleep(1)
+        poll = proc.poll()
+        print(f"Process status after 1s: {'Running' if poll is None else f'Exited with code {poll}'}")
+        
+        # Try to read any initial output
+        print("\nChecking for initial output...")
+        proc.stdout.flush()
+        
+        # Send a simple command
+        print("\nSending test input...")
+        proc.stdin.write("echo test\n")
+        proc.stdin.flush()
+        
+        # Wait and check status
+        time.sleep(2)
+        poll = proc.poll()
+        print(f"Process status after input: {'Running' if poll is None else f'Exited with code {poll}'}")
+        
+        # Terminate
+        proc.terminate()
+        proc.wait(timeout=5)
+        
+    except Exception as e:
+        print(f"ERROR: {e}")
+        import traceback
+        traceback.print_exc()
+
+def test_claude_env():
+    """Check environment variables"""
+    print("\n\nTest 3: Environment check")
+    print("-" * 50)
+    
+    important_vars = ['PATH', 'NODE_PATH', 'npm_config_prefix', 'HOME']
+    for var in important_vars:
+        value = os.environ.get(var, 'Not set')
+        if var == 'PATH':
+            # Show only paths containing node/npm
+            paths = value.split(':')
+            relevant = [p for p in paths if 'node' in p or 'npm' in p]
+            print(f"{var}: {':'.join(relevant)}")
+        else:
+            print(f"{var}: {value}")
 
 if __name__ == "__main__":
-    check_claude()
+    test_claude_direct()
+    test_claude_interactive()
+    test_claude_env()
