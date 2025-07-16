@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod:*)",
+      "Bash(python3:*)",
+      "Bash(echo:*)",
+      "Bash(ls:*)",
+      "Bash(tty)",
+      "Bash(source:*)",
+      "Bash(python run_claude.py:*)",
+      "Bash(python run_claude_advanced.py:*)",
+      "Bash(python:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(pip install:*)",
+      "Bash(start snake_game.html)",
+      "Bash(claude --version)",
+      "Bash(dir \"C:\\Program Files\\Git\\bin\\bash.exe\")",
+      "Bash(set CLAUDE_CODE_GIT_BASH_PATH=C:Program FilesGitbinbash.exe)",
+      "Bash(venvScripts:*)",
+      "Bash(venv/Scripts/pip.exe install:*)",
+      "Bash(set CLAUDE_CODE_GIT_BASH_PATH=\"C:\\Program Files\\Git\\bin\\bash.exe\")"
+    ],
+    "deny": []
+  }
+}

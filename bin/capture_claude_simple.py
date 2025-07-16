@@ -7,6 +7,9 @@ This avoids the complexity of interactive mode.
 import subprocess
 import sys
 import time
+import os
+import shlex
+import platform
 from pathlib import Path
 from datetime import datetime
 
@@ -30,7 +33,11 @@ def capture_claude_print(prompt, path=".", timeout=300, verbose=False, skip_perm
     if not path_obj.exists():
         raise ValueError(f"Path '{path}' does not exist")
     
-    claude_path = "/home/laurelin/.npm-global/bin/claude"
+    # Use Windows claude path if on Windows, otherwise use Linux path
+    if platform.system() == "Windows":
+        claude_path = "claude"  # Use claude from PATH on Windows
+    else:
+        claude_path = "/home/laurelin/.npm-global/bin/claude"
     
     if verbose:
         print(f"[{datetime.now().isoformat()}] Running Claude in print mode", file=sys.stderr)
@@ -38,10 +45,15 @@ def capture_claude_print(prompt, path=".", timeout=300, verbose=False, skip_perm
     
     try:
         # Build command
-        cmd = [claude_path, '--print']
-        if skip_permissions:
-            cmd.append('--dangerously-skip-permissions')
-        cmd.append(prompt)
+        if platform.system() == "Windows":
+            # On Windows, we need to use git-bash to run claude
+            git_bash = os.environ.get('CLAUDE_CODE_GIT_BASH_PATH', r'C:\Program Files\Git\bin\bash.exe')
+            cmd = [git_bash, '-c', f'claude --print {"--dangerously-skip-permissions" if skip_permissions else ""} {shlex.quote(prompt)}']
+        else:
+            cmd = [claude_path, '--print']
+            if skip_permissions:
+                cmd.append('--dangerously-skip-permissions')
+            cmd.append(prompt)
         
         if verbose:
             print(f"[{datetime.now().isoformat()}] Command: {' '.join(cmd)}", file=sys.stderr)

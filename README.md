@@ -188,6 +188,26 @@ python run_claude_wsl.py /home/user/project "Explain this code"
    - File size limits (100MB)
    - Optional base path restriction for sandboxing
 
+5. **fetch_url_content.py** - Secure URL content fetching utility
+   ```bash
+   python fetch_url_content.py https://example.com
+   python fetch_url_content.py  # Interactive mode
+   ```
+   
+   Features:
+   - SSRF protection (blocks private/internal IPs)
+   - Content type validation
+   - Response size limits (10MB default)
+   - SSL verification (can be disabled with --no-verify-ssl)
+   - Comprehensive error handling
+   - Interactive and command-line modes
+   
+   Options:
+   - `--timeout` - Request timeout in seconds (default: 30)
+   - `--max-size` - Maximum response size in bytes (default: 10MB)
+   - `--no-verify-ssl` - Disable SSL certificate verification
+   - `--verbose` - Enable verbose logging
+
 ### Command-Line Options
 
 Most scripts support these common options:

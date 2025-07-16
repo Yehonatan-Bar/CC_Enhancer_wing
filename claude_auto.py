@@ -64,7 +64,7 @@ def main():
     output, code = capture_claude_print(
         combined_prompt,
         skip_permissions=True,
-        verbose=False
+        verbose=True  # Enable verbose for debugging
     )
     
     if code == 0:

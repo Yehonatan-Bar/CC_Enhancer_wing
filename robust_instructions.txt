@@ -1,3 +1,10 @@
-
-After each step, add, commit and push. then, call @claude_auto.py with description of what you did and the string prameter: "security review" and follow the instrucation, 
- after ou finished,   call @claude_auto.py with description of what you did and the string prameter: "error handling" and follow the instrucation.
+ This is your instructions: create a script that get from a user a url, access it and return its content;                                  │
+   After you folowed you instruction: add, commit and push. then, call @claude_auto.py the string prameter (role) as following,              │
+   and with description of what you did.                                                                                                     │
+    the role paremter will be first role from @prompt_library.xml,                                                                           │
+   after implementing the  response from  @claude_auto.py call it again and now with the second role from @prompt_library.xml, 
+  after implementing the response from  @claude_auto.py call it again and now with the third role from @prompt_library.xml,                                                                                                                                       │
+    and so on until you cover all the roles.                                                                                                 │
+                                                                                                                                             │
+                                                                                                                                             │
+    @General_instruction.txt                                                                                                                 │
